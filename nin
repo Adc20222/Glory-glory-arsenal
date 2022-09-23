@@ -1,0 +1,78 @@
+
+#include <iostream>
+#include <sstream>
+#include <string>
+using namespace std;
+
+#define length(array) ((sizeof(array)) / (sizeof(array[0])))
+
+
+
+class  ConcatStringList {
+public:
+    int listSize = 0;
+    struct CharALNode {
+        char* CharArrayList;
+        CharALNode* next;
+    };
+    CharALNode Chess;
+    CharALNode phead;
+    CharALNode ptail;
+    ConcatStringList(const char* s) {
+        Chess.CharArrayList = new char[length(s) + 1];
+        Chess.next = NULL;
+        int i = 0;
+        while (s[i] != NULL) {
+            Chess.CharArrayList[i] = s[i];
+            listSize++;
+            i++;
+        }
+        phead = ptail = Chess;
+    }
+    ConcatStringList(){
+
+    }
+    int getLength() const{
+        return listSize;
+    }
+    void printList() {
+        for (int i = 0; i < getLength(); i++) {
+            cout << Chess.CharArrayList[i];
+        }
+    }
+    char get(int index) const {
+        if (index < 0 || index > getLength()) {
+            throw out_of_range("Index of string is invalid!");
+        }
+        return Chess.CharArrayList[index];
+    }
+    int indexOf(char c) const {
+        for (int i = 0; i < getLength(); i++) {
+            if (Chess.CharArrayList[i] == c) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    ConcatStringList concat(const ConcatStringList& otherS) const {
+        ConcatStringList s4;
+        s4.listSize = this->listSize + otherS.listSize;
+        s4.Chess.CharArrayList = new char[listSize + 1];
+        s4.phead = this->phead;
+        s4.ptail = otherS.ptail;
+        this->ptail.next = otherS.phead;
+        
+        
+        return s4;
+    }
+    
+};
+
+int main() 
+{ 
+    ConcatStringList s1("node 1");
+    ConcatStringList s2("node 2");
+
+    s1.printList();
+    s2.printList();
+}

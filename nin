@@ -6,18 +6,19 @@ using namespace std;
 
 #define length(array) ((sizeof(array)) / (sizeof(array[0])))
 
-
+struct CharALNode {
+    char* CharArrayList;
+    CharALNode* next;
+};
 
 class  ConcatStringList {
 public:
     int listSize = 0;
-    struct CharALNode {
-        char* CharArrayList;
-        CharALNode* next;
+    CharALNode Chess{
+
     };
-    CharALNode Chess;
-    CharALNode phead;
-    CharALNode ptail;
+    CharALNode* phead;
+    CharALNode* ptail;
     ConcatStringList(const char* s) {
         Chess.CharArrayList = new char[length(s) + 1];
         Chess.next = NULL;
@@ -27,12 +28,12 @@ public:
             listSize++;
             i++;
         }
-        phead = ptail = Chess;
+        phead = ptail = new CharALNode;
     }
-    ConcatStringList(){
+    ConcatStringList() {
 
     }
-    int getLength() const{
+    int getLength() const {
         return listSize;
     }
     void printList() {
@@ -56,23 +57,38 @@ public:
     }
     ConcatStringList concat(const ConcatStringList& otherS) const {
         ConcatStringList s4;
+        CharALNode* ptr1 = this->phead;
+        CharALNode* ptr2 = otherS.phead;
         s4.listSize = this->listSize + otherS.listSize;
         s4.Chess.CharArrayList = new char[listSize + 1];
-        s4.phead = this->phead;
-        s4.ptail = otherS.ptail;
-        this->ptail.next = otherS.phead;
-        
-        
+        s4.phead = ptr1;
+        for (int i = 0; i < this->listSize; i++) {
+            s4.Chess.CharArrayList[i] = ptr1->CharArrayList[i];
+            ptr1 = ptr1->next;
+        }
+        ptr1->next = ptr2;
+        int j = 0;
+        for (int k = this->listSize ; k < s4.listSize; k++) {
+            s4.Chess.CharArrayList[k] = ptr2->CharArrayList[j];
+            ptr2 = ptr2->next;
+            j++;
+        }
+        s4.ptail = ptr2;
         return s4;
     }
-    
+
 };
 
-int main() 
-{ 
-    ConcatStringList s1("node 1");
+int main()
+{
+    ConcatStringList s1("node22 1");
     ConcatStringList s2("node 2");
+    ConcatStringList s7 = s1.concat(s2);
+    cout << s2.getLength();
+    cout << s7.getLength();
 
-    s1.printList();
-    s2.printList();
+
+
+
+
 }
